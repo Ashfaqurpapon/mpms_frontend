@@ -15,6 +15,7 @@ export const ApiRouteConstant = {
     SIGN_UP_ROUTES: "/api/user/signup",
     PROJECT_GET_ALL: "/api/project",
     PROJECT_GET_SINGLE: "/api/project",
+    SPRINT_CREATE: "/api/sprint/create",
 
 
 

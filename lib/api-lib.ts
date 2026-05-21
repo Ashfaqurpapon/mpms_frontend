@@ -60,7 +60,7 @@ export const api = {
             "POST",
             projectData
         );
-        console.log("hi", res.data);
+       
         if (!res.success) {
 
             throw new Error(res.message || "Failed to create Product");
@@ -74,18 +74,18 @@ export const api = {
     },
 
     //-------------------------------------------------------------------------------------------------
-    
-    
-    
+
+
+
     async getAllProducts(params?: {
         page?: number;
         limit?: number;
-       
+
     }) {
         const query = new URLSearchParams({
             page: String(params?.page || 1),
             limit: String(params?.limit || 10),
-          
+
         });
 
         const accessToken = localStorage.getItem("authToken");
@@ -110,32 +110,53 @@ export const api = {
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------
 
-  //get single product Customer
+    //get single product Customer
 
-  async getSingleProduct(projectId: string) {
-    const accessToken = localStorage.getItem("authToken");
+    async getSingleProduct(projectId: string) {
+        const accessToken = localStorage.getItem("authToken");
 
-    console.log("royte",accessToken);
-    const res = await fetch(
-      `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_SINGLE}/${projectId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          ...(accessToken && { Authorization: `${accessToken}` }),
-        },
-      }
-    );
+        console.log("royte", accessToken);
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_SINGLE}/${projectId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Failed to fetch product: ${errorText}`);
-    }
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`Failed to fetch product: ${errorText}`);
+        }
 
-    const result = await res.json();
-    return result.data;
-  },
+        const result = await res.json();
+        return result.data;
+    },
+    //-------------------------------------------------------------------------------------------------
 
+    //add sprint
+
+    async createSprint(sprintData: any) {
+        const res = await fetchWithLoginCredentials(
+            ApiRouteConstant.ROUTES.SPRINT_CREATE,
+            "POST",
+            sprintData
+        );
+       
+        if (!res.success) {
+
+            throw new Error(res.message || "Failed to create Sprint");
+        }
+
+        return res.data;
+
+
+
+
+    },
 }
