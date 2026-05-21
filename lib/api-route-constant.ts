@@ -16,6 +16,7 @@ export const ApiRouteConstant = {
     PROJECT_GET_ALL: "/api/project",
     PROJECT_GET_SINGLE: "/api/project",
     SPRINT_CREATE: "/api/sprint/create",
+    SPRINT_GET_ALL: "/api/sprint",
 
 
 

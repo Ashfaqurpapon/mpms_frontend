@@ -29,7 +29,7 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
     const loadTasks = async () => {
       try {
         setLoading(false);
-        const data = await getTasks(sprint.id);
+        const data = await getTasks(sprint._id);
         setTasks(data);
       } catch (error) {
         console.error('Failed to load tasks:', error);
@@ -81,7 +81,7 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
               </p>
             )}
           </div>
-          <Link href={`/projects/${projectId}/sprints/${sprint.id}/tasks/new`}>
+          <Link href={`/projects/${projectId}/sprints/${sprint._id}/tasks/new`}>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
               Add Task

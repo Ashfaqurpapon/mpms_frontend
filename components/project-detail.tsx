@@ -35,11 +35,15 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
         // ]);
 
         const projectData = await api.getSingleProduct(projectId)
+        const sprintsData = await api.getAllSprints({
+          projectId,
+        })
 
-        console.log("projectData",projectData);
-        
+
+        console.log("projectData", sprintsData);
+
         setProject(projectData);
-        // setSprints(sprintsData);
+        setSprints(sprintsData.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load project');
       } finally {
@@ -112,7 +116,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
             <div className="space-y-4">
               {sprints.map((sprint) => (
                 <SprintBoard
-                  key={sprint.id}
+                  key={sprint._id}
                   sprint={sprint}
                   projectId={projectId}
                 />

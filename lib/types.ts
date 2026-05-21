@@ -32,7 +32,7 @@ export interface ProjectMember {
 
 // Sprint Types
 export interface Sprint {
-  id: string;
+  _id: string;
   project_id: string;
   name: string;
   description: string | null;

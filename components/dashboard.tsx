@@ -73,7 +73,7 @@ export function Dashboard() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Link key={project.id} href={`/projects/${project._id}`}>
+            <Link key={project._id} href={`/projects/${project._id}`}>
               <Card className="cursor-pointer hover:shadow-lg transition-shadow h-full">
                 <CardHeader>
                   <CardTitle className="line-clamp-2">{project.name}</CardTitle>

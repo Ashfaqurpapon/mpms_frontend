@@ -159,4 +159,71 @@ export const api = {
 
 
     },
+
+    //-------------------------------------------------------------------------------------------------------------------
+
+     async getAllSprints(params?: {
+        page?: number;
+        limit?: number;
+        projectId: string;
+
+    }) {
+        const query = new URLSearchParams({
+            page: String(params?.page || 1),
+            limit: String(params?.limit || 10),
+            ...(params?. projectId ? {  productId: params. projectId} : {}),
+           
+
+        });
+
+        const accessToken = localStorage.getItem("authToken");
+
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.SPRINT_GET_ALL
+            }?${query.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch projects");
+
+        const result = await res.json();
+        return result.data; // contains meta + data
+    },
+
+
+    //----------------------------------------------------------------------------------------------------------------------------
+
+    //get single Sprint
+
+    async getSingleSprint(projectId: string) {
+        const accessToken = localStorage.getItem("authToken");
+
+        console.log("royte", accessToken);
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_SINGLE}/${projectId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`Failed to fetch product: ${errorText}`);
+        }
+
+        const result = await res.json();
+        return result.data;
+    },
+
+
 }
