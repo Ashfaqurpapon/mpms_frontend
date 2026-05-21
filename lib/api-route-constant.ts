@@ -1,7 +1,7 @@
 export const ApiRouteConstant = {
   // BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.example.com",
-//   BASE_URL: "https://peace-plant-mxby.onrender.com",
-  
+  //   BASE_URL: "https://peace-plant-mxby.onrender.com",
+
   //BASE_URL: "https://peace-plant.onrender.com",
   BASE_URL: "http://localhost:8000",
   CLOUDINARY_IMAGE: "https://api.cloudinary.com/v1_1/dgzufd7vb/image/upload",
@@ -10,21 +10,35 @@ export const ApiRouteConstant = {
   ROUTES: {
     //login related
     LOGIN: "/api/auth/login",
+    PROJECT_CREATE: "/api/project/create",
+    USER_ME: "/api/user/me",
     SIGN_UP_ROUTES: "/api/user/signup",
+    PROJECT_GET_ALL: "/api/project",
+    PROJECT_GET_SINGLE: "/api/project",
+
+
+
+
+
+
+
+
     REFRESH_ACCESS_TOKEN: "/api/auth/refresh-token",
     UPDATE_USER_DATA: "/api/user/updateUser",
     CHANGE_PASSWORD: "/api/auth/change-password",
-    USER_ME: "/api/user/me",
+
     UPLOAD: "/upload",
     CATEGORY_GET: "/api/productCategory",
     CATEGORY_CREATE: "/api/productCategory/create",
     CATEGORY_UPDATE: "/api/productCategory/update",
     CATEGORY_DELETE: "/api/productCategory/delete",
-    PRODUCT_CREATE: "/api/product/create",
-    PRODUCT_GET_ALL: "/api/product",
+    
+   
+
+
     PRODUCT_GET_ALL_ADMIN: "/api/product/allProduct",
     PRODUCT_GET_SINGLE_CUSTOMER: "/api/product/customer",
-    PRODUCT_GET_SINGLE_ADMIN: "/api/product/admin",
+   
     PRODUCT_DELETE: "/api/product/delete",
     PRODUCT_GET_ALL_LEAF_CATEGORY_PRODUCTS: "/api/product/LeafCategoryProduct",
     PRODUCT_UPDATE: "/api/product/update",

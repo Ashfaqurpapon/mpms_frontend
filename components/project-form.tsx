@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { createProject } from '@/lib/api';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
+import { api } from '@/lib/api-lib';
 
 export function ProjectForm() {
   const router = useRouter();
@@ -18,6 +20,7 @@ export function ProjectForm() {
     name: '',
     description: '',
   });
+  const { user } = useAuth();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,22 +35,22 @@ export function ProjectForm() {
     setLoading(true);
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+
 
       if (!user) {
         throw new Error('Not authenticated');
       }
-
-      const project = await createProject({
+       
+       
+      const project = {
         name: formData.name,
         description: formData.description,
         owner_id: user.id,
         status: 'active',
-      });
+      };
+      const result: any = await api.createProject(project);
 
-      router.push(`/projects/${project.id}`);
+      router.push(`/projects/${result._id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create project');
     } finally {

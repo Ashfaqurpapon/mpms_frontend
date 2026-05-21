@@ -1,3 +1,4 @@
+import fetchWithLoginCredentials from "@/app/auth/fetchWithCredentials";
 import { ApiRouteConstant } from "./api-route-constant";
 import { axiosInterceptors } from "./axios-interceptors";
 
@@ -10,7 +11,7 @@ export type ApiResponse<T = any> = {
 
 export const api = {
 
-//------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
 
 
     async signUpUser(userData: any): Promise<ApiResponse> {
@@ -38,7 +39,7 @@ export const api = {
                 error.message ||
                 "Network error occurred";
 
-           
+
             return {
                 success: false,
                 message,
@@ -47,4 +48,94 @@ export const api = {
             };
         }
     },
+
+
+    //-------------------------------------------------------------------------------------------------
+
+    //add project
+
+    async createProject(projectData: any) {
+        const res = await fetchWithLoginCredentials(
+            ApiRouteConstant.ROUTES.PROJECT_CREATE,
+            "POST",
+            projectData
+        );
+        console.log("hi", res.data);
+        if (!res.success) {
+
+            throw new Error(res.message || "Failed to create Product");
+        }
+
+        return res.data;
+
+
+
+
+    },
+
+    //-------------------------------------------------------------------------------------------------
+    
+    
+    
+    async getAllProducts(params?: {
+        page?: number;
+        limit?: number;
+       
+    }) {
+        const query = new URLSearchParams({
+            page: String(params?.page || 1),
+            limit: String(params?.limit || 10),
+          
+        });
+
+        const accessToken = localStorage.getItem("authToken");
+
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_ALL
+            }?${query.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch projects");
+
+        const result = await res.json();
+        return result.data; // contains meta + data
+    },
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+
+  //get single product Customer
+
+  async getSingleProduct(projectId: string) {
+    const accessToken = localStorage.getItem("authToken");
+
+    console.log("royte",accessToken);
+    const res = await fetch(
+      `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_SINGLE}/${projectId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...(accessToken && { Authorization: `${accessToken}` }),
+        },
+      }
+    );
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Failed to fetch product: ${errorText}`);
+    }
+
+    const result = await res.json();
+    return result.data;
+  },
+
 }

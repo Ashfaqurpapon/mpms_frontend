@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { api } from '@/lib/api-lib';
 
 export function Dashboard() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -18,8 +19,11 @@ export function Dashboard() {
     const loadProjects = async () => {
       try {
         setLoading(true);
-        const data = await getProjects();
-        setProjects(data);
+        const data = await api.getAllProducts();
+
+        console.log("check data",data.data);
+        
+        setProjects(data.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load projects');
       } finally {
@@ -69,7 +73,7 @@ export function Dashboard() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Link key={project.id} href={`/projects/${project.id}`}>
+            <Link key={project.id} href={`/projects/${project._id}`}>
               <Card className="cursor-pointer hover:shadow-lg transition-shadow h-full">
                 <CardHeader>
                   <CardTitle className="line-clamp-2">{project.name}</CardTitle>

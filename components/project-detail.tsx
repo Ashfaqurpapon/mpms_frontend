@@ -10,6 +10,7 @@ import { Plus, Settings } from 'lucide-react';
 import { SprintBoard } from './sprint-board';
 import { ProjectMembers } from './project-members';
 import type { Project, Sprint } from '@/lib/types';
+import { api } from '@/lib/api-lib';
 
 interface ProjectDetailProps {
   projectId: string;
@@ -26,12 +27,19 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
     const loadData = async () => {
       try {
         setLoading(true);
-        const [projectData, sprintsData] = await Promise.all([
-          getProject(projectId),
-          getSprints(projectId),
-        ]);
+        // const [projectData, sprintsData] = await Promise.all([
+
+
+        //   getProject(projectId),
+        //   getSprints(projectId),
+        // ]);
+
+        const projectData = await api.getSingleProduct(projectId)
+
+        console.log("projectData",projectData);
+        
         setProject(projectData);
-        setSprints(sprintsData);
+        // setSprints(sprintsData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load project');
       } finally {
