@@ -20,11 +20,17 @@ export interface Project {
   created_at: string;
   updated_at: string;
 }
-
+export interface IUser {
+    _id: string;
+    name?: string;
+    email: string;
+    role: "admin" | "manager" | "member";
+    createdAt?: Date;
+}
 export interface ProjectMember {
   id: string;
   project_id: string;
-  user_id: string;
+  user_id: IUser;
   role: 'admin' | 'manager' | 'member';
   joined_at: string;
   user?: User;

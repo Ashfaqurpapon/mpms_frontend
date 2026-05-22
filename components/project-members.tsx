@@ -177,11 +177,11 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
                 >
                   <div>
                     <p className="font-medium">
-                      {member.user?.full_name || member.user?.email}
+                      {member.user_id?.email}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    {/* <p className="text-sm text-muted-foreground">
                       {member.user?.email}
-                    </p>
+                    </p> */}
                   </div>
                   <div className="flex items-center gap-3">
                     <Badge variant="secondary">{member.role}</Badge>
