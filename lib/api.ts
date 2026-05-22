@@ -208,3 +208,18 @@ export async function getActivityLogs(projectId: string) {
   if (error) throw error;
   return data as ActivityLog[];
 }
+// Users
+export async function getUserByEmail(email: string) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .single();
+  if (error) {
+    if (error.code === 'PGRST116') {
+      throw new Error(`User with email "${email}" not found`);
+    }
+    throw error;
+  }
+  return data;
+}

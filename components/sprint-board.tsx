@@ -37,7 +37,7 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
     };
 
     loadTasks();
-  }, [sprint.id]);
+  }, [sprint._id]);
 
   const handleDragStart = (task: Task) => {
     setDraggedTask(task);

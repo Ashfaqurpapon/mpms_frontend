@@ -17,6 +17,10 @@ export const ApiRouteConstant = {
     PROJECT_GET_SINGLE: "/api/project",
     SPRINT_CREATE: "/api/sprint/create",
     SPRINT_GET_ALL: "/api/sprint",
+    MEMBER_CREATE: "/api/member/create",
+    GET_USER_BY_EMAIL:"/api/user/getUserByEmail",
+    MEMBERS_GET_ALL: "/api/member/",
+
 
 
 

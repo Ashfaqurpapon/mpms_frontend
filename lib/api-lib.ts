@@ -226,4 +226,104 @@ export const api = {
     },
 
 
+     //-------------------------------------------------------------------------------------------------
+
+    //add sprint
+
+    async createMember(sprintData: any) {
+        const res = await fetchWithLoginCredentials(
+            ApiRouteConstant.ROUTES.MEMBER_CREATE,
+            "POST",
+            sprintData
+        );
+       
+        if (!res.success) {
+
+            throw new Error(res.message || "Failed to create Member");
+        }
+
+        return res.data;
+
+
+
+
+    },
+//-------------------------------------------------------------------------------------------------------------------
+
+     async getUserByEmail(params?: {
+        // page?: number;
+        // limit?: number;
+       email: string;
+
+    }) {
+        const query = new URLSearchParams({
+            // page: String(params?.page || 1),
+            // limit: String(params?.limit || 10),
+            ...(params?. email ? {  email: params.email} : {}),
+           
+
+        });
+
+        
+        
+
+        const accessToken = localStorage.getItem("authToken");
+
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.GET_USER_BY_EMAIL
+            }?${query.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch user");
+
+        const result = await res.json();
+        return result.data; // contains meta + data
+    },
+
+     //-------------------------------------------------------------------------------------------------------------------
+
+     async getAllMembers(params?: {
+        page?: number;
+        limit?: number;
+        projectId: string;
+
+    }) {
+        const query = new URLSearchParams({
+            page: String(params?.page || 1),
+            limit: String(params?.limit || 10),
+            ...(params?. projectId ? {  projectId: params. projectId} : {}),
+           
+
+        });
+       
+       
+        const accessToken = localStorage.getItem("authToken");
+
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.MEMBERS_GET_ALL
+            }?${query.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch projects");
+
+        const result = await res.json();
+        return result.data; // contains meta + data
+    },
+
+
+
 }

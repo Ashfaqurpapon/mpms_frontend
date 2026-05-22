@@ -23,7 +23,6 @@ export const authApi = {
         ApiRouteConstant.ROUTES.USER_ME
       );
 
-      console.log("ff",userRes);
       
      
       return new LoggedTokenAnsUser(accessToken, userRes.data?.data);
