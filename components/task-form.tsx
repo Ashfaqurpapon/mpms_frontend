@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import type { ProjectMember } from '@/lib/types';
 import { api } from '@/lib/api-lib';
+import { useAuth } from '@/contexts/auth-context';
 
 interface TaskFormProps {
   projectId: string;
@@ -37,6 +38,7 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
     estimated_hours: '',
     assigned_to: '',
   });
+  const { user } = useAuth();
 
   useEffect(() => {
     // const loadMembers = async () => {
@@ -83,15 +85,14 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
     setLoading(true);
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      
+       
 
       if (!user) {
         throw new Error('Not authenticated');
       }
 
-      const task = await createTask({
+      const task =({
         title: formData.title,
         description: formData.description,
         priority: formData.priority as any,
@@ -104,6 +105,12 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
         project_id: projectId,
         created_by: user.id,
       });
+
+      
+      const result=await api.createTask({task})
+      console.log("result paici",result);
+      
+      
 
       router.push(`/projects/${projectId}`);
     } catch (err) {

@@ -324,6 +324,25 @@ export const api = {
         return result.data; // contains meta + data
     },
 
+ //add task
 
+    async createTask(taskData: any) {
+        const res = await fetchWithLoginCredentials(
+            ApiRouteConstant.ROUTES.TASK_CREATE,
+            "POST",
+            taskData
+        );
+       
+        if (!res.success) {
+
+            throw new Error(res.message || "Failed to create Member");
+        }
+
+        return res.data;
+
+
+
+
+    },
 
 }
