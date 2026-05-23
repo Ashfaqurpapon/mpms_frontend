@@ -1,7 +1,10 @@
 import { TaskForm } from '@/components/task-form';
 
 interface NewTaskPageProps {
-  params: Promise<{ id: string; sprintId: string }>;
+  params: {
+    id: string;
+    sprintId: string;
+  };
 }
 
 export const metadata = {

@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import type { ProjectMember } from '@/lib/types';
+import { api } from '@/lib/api-lib';
 
 interface TaskFormProps {
   projectId: string;
@@ -38,16 +39,32 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
   });
 
   useEffect(() => {
+    // const loadMembers = async () => {
+    //   try {
+    //     const data = await getProjectMembers(projectId);
+    //     setMembers(data);
+    //   } catch (err) {
+    //     console.error('Failed to load members:', err);
+    //   }
+    // };
     const loadMembers = async () => {
       try {
-        const data = await getProjectMembers(projectId);
-        setMembers(data);
+        setLoading(true);
+        const data = await api.getAllMembers({ projectId });
+
+        console.log("member paite cai", data);
+
+        setMembers(data.data);
       } catch (err) {
-        console.error('Failed to load members:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load members');
+      } finally {
+        setLoading(false);
       }
     };
     loadMembers();
   }, [projectId]);
+
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -188,10 +205,10 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
                 <SelectValue placeholder="Select team member" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Unassigned</SelectItem>
+                <SelectItem value="unassigned">Unassigned</SelectItem>
                 {members.map((member) => (
-                  <SelectItem key={member.user_id} value={member.user_id}>
-                    {member.user?.full_name || member.user?.email}
+                  <SelectItem key={member.user_id._id} value={member.user_id._id}>
+                    { member.user_id?.email}
                   </SelectItem>
                 ))}
               </SelectContent>
