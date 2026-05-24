@@ -21,6 +21,7 @@ export const ApiRouteConstant = {
     GET_USER_BY_EMAIL:"/api/user/getUserByEmail",
     MEMBERS_GET_ALL: "/api/member/",
     TASK_CREATE: "/api/task/create",
+    TASKS_GET_ALL: "/api/task",
 
 
 

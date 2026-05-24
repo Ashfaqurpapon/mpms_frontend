@@ -3,7 +3,7 @@ export interface User {
   id: string;
   email: string;
   name: string | null;
-  phone:string;
+  phone: string;
   avatar_url?: string | null;
   role: 'admin' | 'manager' | 'member';
   created_at?: string;
@@ -12,20 +12,22 @@ export interface User {
 
 // Project Types
 export interface Project {
-  id: string;
-  name: string;
+  _id: string;
+  title: string;
+  client: string;
   description: string | null;
   owner_id: string;
-  status: 'active' | 'archived' | 'completed';
+  status: "planned" | "active" | "completed" | "archived";
+  thumbnail?: string | null;
   created_at: string;
   updated_at: string;
 }
 export interface IUser {
-    _id: string;
-    name?: string;
-    email: string;
-    role: "admin" | "manager" | "member";
-    createdAt?: Date;
+  _id: string;
+  name?: string;
+  email: string;
+  role: "admin" | "manager" | "member";
+  createdAt?: Date;
 }
 export interface ProjectMember {
   id: string;

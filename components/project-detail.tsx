@@ -11,6 +11,7 @@ import { SprintBoard } from './sprint-board';
 import { ProjectMembers } from './project-members';
 import type { Project, Sprint } from '@/lib/types';
 import { api } from '@/lib/api-lib';
+import { useAuth } from '@/contexts/auth-context';
 
 interface ProjectDetailProps {
   projectId: string;
@@ -22,6 +23,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('sprints');
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadData = async () => {
@@ -66,15 +68,15 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">{project.name}</h1>
+          <h1 className="text-3xl font-bold">{project.title}</h1>
           <p className="text-muted-foreground mt-2">{project.description}</p>
         </div>
-        <Link href={`/projects/${projectId}/settings`}>
+        {/* <Link href={`/projects/${projectId}/settings`}>
           <Button variant="outline" className="gap-2">
             <Settings className="w-4 h-4" />
             Settings
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       {error && (
@@ -95,12 +97,23 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
         <TabsContent value="sprints" className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Sprints</h2>
-            <Link href={`/projects/${projectId}/sprints/new`}>
-              <Button size="sm" className="gap-2">
-                <Plus className="w-4 h-4" />
-                New Sprint
-              </Button>
-            </Link>
+
+            {/* {(user?.role === 'admin' || user?.role === 'manager') && (
+              <Link href="/projects/new">
+                <Button className="gap-2">
+                  <Plus className="w-4 h-4" />
+                  New Project
+                </Button>
+              </Link>
+            )} */}
+            {(user?.role === 'admin' || user?.role === 'manager') && (
+              <Link href={`/projects/${projectId}/sprints/new`}>
+                <Button size="sm" className="gap-2">
+                  <Plus className="w-4 h-4" />
+                  New Sprint
+                </Button>
+              </Link>
+            )}
           </div>
 
           {sprints.length === 0 ? (

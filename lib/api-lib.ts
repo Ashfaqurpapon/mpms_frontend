@@ -60,7 +60,7 @@ export const api = {
             "POST",
             projectData
         );
-       
+
         if (!res.success) {
 
             throw new Error(res.message || "Failed to create Product");
@@ -77,7 +77,7 @@ export const api = {
 
 
 
-    async getAllProducts(params?: {
+    async getAllProjects(params?: {
         page?: number;
         limit?: number;
 
@@ -147,7 +147,7 @@ export const api = {
             "POST",
             sprintData
         );
-       
+
         if (!res.success) {
 
             throw new Error(res.message || "Failed to create Sprint");
@@ -162,7 +162,7 @@ export const api = {
 
     //-------------------------------------------------------------------------------------------------------------------
 
-     async getAllSprints(params?: {
+    async getAllSprints(params?: {
         page?: number;
         limit?: number;
         projectId: string;
@@ -171,8 +171,8 @@ export const api = {
         const query = new URLSearchParams({
             page: String(params?.page || 1),
             limit: String(params?.limit || 10),
-            ...(params?. projectId ? {  productId: params. projectId} : {}),
-           
+            ...(params?.projectId ? { productId: params.projectId } : {}),
+
 
         });
 
@@ -226,7 +226,7 @@ export const api = {
     },
 
 
-     //-------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------
 
     //add sprint
 
@@ -236,7 +236,7 @@ export const api = {
             "POST",
             sprintData
         );
-       
+
         if (!res.success) {
 
             throw new Error(res.message || "Failed to create Member");
@@ -248,24 +248,24 @@ export const api = {
 
 
     },
-//-------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------
 
-     async getUserByEmail(params?: {
+    async getUserByEmail(params?: {
         // page?: number;
         // limit?: number;
-       email: string;
+        email: string;
 
     }) {
         const query = new URLSearchParams({
             // page: String(params?.page || 1),
             // limit: String(params?.limit || 10),
-            ...(params?. email ? {  email: params.email} : {}),
-           
+            ...(params?.email ? { email: params.email } : {}),
+
 
         });
 
-        
-        
+
+
 
         const accessToken = localStorage.getItem("authToken");
 
@@ -287,9 +287,9 @@ export const api = {
         return result.data; // contains meta + data
     },
 
-     //-------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------
 
-     async getAllMembers(params?: {
+    async getAllMembers(params?: {
         page?: number;
         limit?: number;
         projectId: string;
@@ -298,12 +298,12 @@ export const api = {
         const query = new URLSearchParams({
             page: String(params?.page || 1),
             limit: String(params?.limit || 10),
-            ...(params?. projectId ? {  projectId: params. projectId} : {}),
-           
+            ...(params?.projectId ? { projectId: params.projectId } : {}),
+
 
         });
-       
-       
+
+
         const accessToken = localStorage.getItem("authToken");
 
         const res = await fetch(
@@ -324,7 +324,7 @@ export const api = {
         return result.data; // contains meta + data
     },
 
- //add task
+    //add task
 
     async createTask(taskData: any) {
         const res = await fetchWithLoginCredentials(
@@ -332,7 +332,7 @@ export const api = {
             "POST",
             taskData
         );
-       
+
         if (!res.success) {
 
             throw new Error(res.message || "Failed to create Member");
@@ -343,6 +343,42 @@ export const api = {
 
 
 
+    },
+    //-------------------------------------------------------------------------------------------------------------------
+
+    async getAllTasks(params?: {
+        page?: number;
+        limit?: number;
+        sprint_id: string;
+
+    }) {
+        const query = new URLSearchParams({
+            page: String(params?.page || 1),
+            limit: String(params?.limit || 10),
+            ...(params?.sprint_id ? { sprint_id: params.sprint_id } : {}),
+
+
+        });
+
+
+        const accessToken = localStorage.getItem("authToken");
+
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.TASKS_GET_ALL
+            }?${query.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch projects");
+
+        const result = await res.json();
+        return result.data; // contains meta + data
     },
 
 }

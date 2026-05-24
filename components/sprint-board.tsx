@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Plus, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import type { Sprint, Task } from '@/lib/types';
+import { api } from '@/lib/api-lib';
 
 interface SprintBoardProps {
   sprint: Sprint;
@@ -29,8 +30,12 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
     const loadTasks = async () => {
       try {
         setLoading(false);
-        const data = await getTasks(sprint._id);
-        setTasks(data);
+        const data = await api.getAllTasks({
+          sprint_id: sprint._id,
+        });
+        console.log("task paici",data);
+        
+        setTasks(data.data);
       } catch (error) {
         console.error('Failed to load tasks:', error);
       }

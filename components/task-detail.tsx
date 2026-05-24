@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { createClient } from '@/lib/supabase/client';
 import type { Task, Comment } from '@/lib/types';
+import { api } from '@/lib/api-lib';
 
 interface TaskDetailProps {
   projectId: string;
@@ -26,8 +27,16 @@ export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
     const loadData = async () => {
       try {
         setLoading(true);
-        const tasks = await getTasks(''); // This needs sprint context
-        const foundTask = tasks.find((t) => t.id === taskId);
+        const tasks = await api.getAllTasks();
+        //   console.log("paici re",taskId);
+        // console.log("task paici", tasks);
+        // This needs sprint context
+        const foundTask = (tasks.data as Task[]).find(
+          (t) => t.id === taskId
+        );
+
+      
+        
         if (foundTask) {
           setTask(foundTask);
           const commentsData = await getComments(taskId);
@@ -49,7 +58,7 @@ export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
     try {
       setSubmittingComment(true);
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) return;
 
       const newComment = await createComment({
