@@ -171,7 +171,7 @@ export const api = {
         const query = new URLSearchParams({
             page: String(params?.page || 1),
             limit: String(params?.limit || 10),
-            ...(params?.projectId ? { productId: params.projectId } : {}),
+            ...(params?.projectId ? { projectId: params.projectId } : {}),
 
 
         });
@@ -381,4 +381,39 @@ export const api = {
         return result.data; // contains meta + data
     },
 
+    async getMyProject(params?: {
+        // page?: number;
+        // limit?: number;
+        email: string;
+
+    }) {
+        const query = new URLSearchParams({
+            // page: String(params?.page || 1),
+            // limit: String(params?.limit || 10),
+            ...(params?.email ? { email: params.email } : {}),
+
+
+        });
+
+       
+        
+        const accessToken = localStorage.getItem("authToken");
+
+        const res = await fetch(
+            `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.MY_PROJECT_GET_ALL
+            }?${query.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(accessToken && { Authorization: `${accessToken}` }),
+                },
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch projects");
+
+        const result = await res.json();
+        return result.data; // contains meta + data
+    },
 }

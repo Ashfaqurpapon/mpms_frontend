@@ -44,7 +44,7 @@ export function Navigation() {
             Dashboard
           </Button>
         </Link>
-
+{/* 
         <Link href="/projects">
           <Button
             variant="ghost"
@@ -53,7 +53,7 @@ export function Navigation() {
             <Briefcase className="w-5 h-5" />
             Projects
           </Button>
-        </Link>
+        </Link> */}
 
         <Link href="/profile">
           <Button

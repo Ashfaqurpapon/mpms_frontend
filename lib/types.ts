@@ -30,7 +30,7 @@ export interface IUser {
   createdAt?: Date;
 }
 export interface ProjectMember {
-  id: string;
+  _id: string;
   project_id: string;
   user_id: IUser;
   role: 'admin' | 'manager' | 'member';
@@ -43,7 +43,7 @@ export interface Sprint {
   _id: string;
   project_id: string;
   name: string;
-  description: string | null;
+   sprint_number: number ;
   start_date: string | null;
   end_date: string | null;
   status: 'planning' | 'active' | 'completed';
@@ -60,7 +60,7 @@ export interface Task {
   description: string | null;
   status: 'todo' | 'in_progress' | 'in_review' | 'completed';
   priority: 'low' | 'medium' | 'high' | 'urgent';
-  assigned_to: string | null;
+  assigned_to: User | null;
   estimated_hours: number | null;
   spent_hours: number;
   created_by: string;

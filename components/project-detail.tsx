@@ -115,14 +115,15 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               </Link>
             )}
           </div>
-
           {sprints.length === 0 ? (
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <p className="text-muted-foreground mb-4">No sprints yet</p>
+                 {(user?.role === 'admin' || user?.role === 'manager') && (
                 <Link href={`/projects/${projectId}/sprints/new`}>
                   <Button>Create your first sprint</Button>
                 </Link>
+                 )}
               </CardContent>
             </Card>
           ) : (

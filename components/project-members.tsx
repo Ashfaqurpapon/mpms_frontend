@@ -11,6 +11,7 @@ import { Plus } from 'lucide-react';
 import type { ProjectMember } from '@/lib/types';
 import { api } from '@/lib/api-lib';
 import { log } from 'console';
+import { useAuth } from '@/contexts/auth-context';
 
 interface ProjectMembersProps {
   projectId: string;
@@ -24,6 +25,7 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<'admin' | 'manager' | 'member'>('member');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     loadMembers();
@@ -79,6 +81,9 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
         setRole('member');
         setIsOpen(false);
       }
+      else{
+        
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add member');
     } finally {
@@ -94,6 +99,7 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">Team Members ({members.length})</h3>
+        {(user?.role === 'admin' || user?.role === 'manager') && (
         <Button
           size="sm"
           className="gap-2"
@@ -102,6 +108,7 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
           <Plus className="w-4 h-4" />
           Add Member
         </Button>
+        )}
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -172,7 +179,7 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
             <div className="space-y-3">
               {members.map((member) => (
                 <div
-                  key={member.id}
+                  key={member._id}
                   className="flex items-center justify-between py-2 border-b last:border-0"
                 >
                   <div>

@@ -8,6 +8,7 @@ import { Plus, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import type { Sprint, Task } from '@/lib/types';
 import { api } from '@/lib/api-lib';
+import { useAuth } from '@/contexts/auth-context';
 
 interface SprintBoardProps {
   sprint: Sprint;
@@ -25,6 +26,7 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+   const { user } = useAuth();
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -34,7 +36,6 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
           sprint_id: sprint._id,
         });
         console.log("task paici",data);
-        
         setTasks(data.data);
       } catch (error) {
         console.error('Failed to load tasks:', error);
@@ -86,12 +87,14 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
               </p>
             )}
           </div>
+           {(user?.role === 'admin' || user?.role === 'manager') && (
           <Link href={`/projects/${projectId}/sprints/${sprint._id}/tasks/new`}>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
               Add Task
             </Button>
           </Link>
+           )}
         </div>
       </CardHeader>
       <CardContent>
@@ -128,10 +131,10 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
                         >
                           {task.priority}
                         </span>
-                        {task.assigned_user && (
+                        {task.assigned_to && (
                           <span className="text-xs bg-gray-200 rounded-full px-2 py-1">
-                            {task.assigned_user.full_name?.split(' ')[0] ||
-                              task.assigned_user.email.split('@')[0]}
+                            {task.assigned_to?.email?.split(' ')[0] ||
+                              task.assigned_to?.email.split('@')[0]}
                           </span>
                         )}
                       </div>

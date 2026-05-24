@@ -1,17 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { User } from '@/lib/types';
+import { api } from '@/lib/api-lib';
+import { useAuth } from '@/contexts/auth-context';
 
 export default function ProfilePage() {
-  const supabase = createClient();
-  const [user, setUser] = useState<User | null>(null);
+  const { user: authUser } = useAuth();
+
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
+
   const [formData, setFormData] = useState({
     full_name: '',
   });
@@ -19,19 +21,20 @@ export default function ProfilePage() {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const { data: { user: authUser } } = await supabase.auth.getUser();
-        if (authUser) {
-          const { data } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', authUser.id)
-            .single();
+        setLoading(true);
 
-          if (data) {
-            setUser(data);
-            setFormData({ full_name: data.full_name || '' });
-          }
-        }
+        if (!authUser?.email) return;
+
+        const res = await api.getUserByEmail({
+          email: authUser.email,
+        });
+
+        setUser(res);
+
+        setFormData({
+          full_name: res?.full_name || '',
+        });
+
       } catch (error) {
         console.error('Failed to load user:', error);
       } finally {
@@ -40,19 +43,24 @@ export default function ProfilePage() {
     };
 
     loadUser();
-  }, [supabase]);
+  }, [authUser]);
 
   const handleSave = async () => {
     if (!user) return;
 
     try {
       setLoading(true);
-      await supabase
-        .from('users')
-        .update({ full_name: formData.full_name })
-        .eq('id', user.id);
 
-      setUser({ ...user, full_name: formData.full_name });
+      await api.updateUser({
+        id: user._id,
+        full_name: formData.full_name,
+      });
+
+      setUser({
+        ...user,
+        full_name: formData.full_name,
+      });
+
       setEditing(false);
     } catch (error) {
       console.error('Failed to update profile:', error);
@@ -67,28 +75,45 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl space-y-6">
+
       <div>
         <h1 className="text-3xl font-bold">Profile</h1>
-        <p className="text-muted-foreground mt-2">Manage your profile information</p>
+        <p className="text-muted-foreground mt-2">
+           Your profile information
+        </p>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
         </CardHeader>
+
         <CardContent className="space-y-4">
+
+          {/* Email */}
           <div>
-            <label className="block text-sm font-medium mb-2">Email</label>
-            <Input value={user?.email} disabled className="bg-gray-50" />
+            <label className="block text-sm font-medium mb-2">
+              Email
+            </label>
+
+            <Input
+              value={authUser?.email || ''}
+              disabled
+              className="bg-gray-50"
+            />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">Full Name</label>
+          {/* Full Name */}
+          {/* <div>
+            <label className="block text-sm font-medium mb-2">
+              Full Name
+            </label>
+
             {editing ? (
               <Input
                 value={formData.full_name}
                 onChange={(e) =>
-                  setFormData({ ...formData, full_name: e.target.value })
+                  setFormData({ full_name: e.target.value })
                 }
               />
             ) : (
@@ -98,19 +123,30 @@ export default function ProfilePage() {
                 className="bg-gray-50"
               />
             )}
-          </div>
+          </div> */}
 
+          {/* Role */}
           <div>
-            <label className="block text-sm font-medium mb-2">Role</label>
-            <Input value={user?.role} disabled className="bg-gray-50" />
+            <label className="block text-sm font-medium mb-2">
+              Role
+            </label>
+
+            <Input
+              value={user?.role || ''}
+              disabled
+              className="bg-gray-50"
+            />
           </div>
 
+          {/* Actions */}
           <div className="flex gap-4 pt-4">
-            {editing ? (
+
+            {/* {editing ? (
               <>
                 <Button onClick={handleSave} disabled={loading}>
                   {loading ? 'Saving...' : 'Save'}
                 </Button>
+
                 <Button
                   variant="outline"
                   onClick={() => setEditing(false)}
@@ -119,11 +155,16 @@ export default function ProfilePage() {
                 </Button>
               </>
             ) : (
-              <Button onClick={() => setEditing(true)}>Edit Profile</Button>
-            )}
+              <Button onClick={() => setEditing(true)}>
+                Edit Profile
+              </Button>
+            )} */}
+
           </div>
+
         </CardContent>
       </Card>
+
     </div>
   );
 }

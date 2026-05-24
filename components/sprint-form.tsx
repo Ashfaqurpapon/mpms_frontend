@@ -59,7 +59,6 @@ export function SprintForm({ projectId }: SprintFormProps) {
       const sprint = {
         project_id: projectId,
         name: formData.name,
-        description: formData.description,
         start_date: formData.start_date || null,
         end_date: formData.end_date || null,
         status: 'planning'
@@ -103,16 +102,6 @@ export function SprintForm({ projectId }: SprintFormProps) {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">Description</label>
-            <Textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Describe the sprint goals and focus areas"
-              rows={4}
-            />
-          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
