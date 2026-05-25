@@ -1,123 +1,121 @@
 # MPMS (Multi-Project Management System) - Setup Guide
 
 ## Overview
-MPMS is a full-stack project management application built with Next.js 16, TypeScript, Tailwind CSS, and Supabase. It supports project creation, sprint planning, task management, team collaboration, and time tracking.
+MPMS is a modern full-stack project management application built with Next.js 16, TypeScript, Tailwind CSS, and MongoDB.
 
-## Prerequisites
-- Supabase project created at supabase.com
-- Node.js and pnpm installed
+It helps teams efficiently manage:
+- Projects
+- Sprints
+- Tasks
+- Team Collaboration
+- Time Tracking
 
-## Environment Configuration
+The platform provides a clean and scalable workflow management system for developers and teams.
 
-### Step 1: Get Supabase Credentials
-1. Go to your Supabase dashboard: https://app.supabase.com
-2. Click on your project
-3. Go to **Settings** → **API**
-4. Copy:
-   - **Project URL** (under "Project Ref")
-   - **Anon public** key (under "Project API Keys")
+---
 
-### Step 2: Add Environment Variables
-Add these to your v0 project's **Settings → Vars**:
+# Features
 
-```
-NEXT_PUBLIC_SUPABASE_URL=your_project_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
-NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000/auth/callback
-```
-
-## Running the Application
-
-The application is already configured. Just ensure the environment variables are set and the dev server will start automatically.
-
-### Access Points
-- **Home**: http://localhost:3000 (redirects to login if not authenticated)
-- **Login**: http://localhost:3000/auth/login
-- **Sign Up**: http://localhost:3000/auth/sign-up
-- **Dashboard** (after login): http://localhost:3000/dashboard
-
-## Features
-
-### Authentication
+## Authentication
 - Email/password signup and login
+- JWT-based authentication
 - Automatic user profile creation
 - Session management with middleware
+- Protected routes
 
-### Project Management
+---
+
+## Project Management
 - Create and manage projects
-- Set project descriptions and status (active, archived, completed)
+- Set project descriptions
+- Update project status
+  - Active
+  - Archived
+  - Completed
 - Invite team members to projects
 
-### Sprint Management
+---
+
+## Sprint Management
 - Create sprints within projects
-- Set sprint dates and status (planning, active, completed)
+- Set sprint dates
+- Manage sprint status
+  - Planning
+  - Active
+  - Completed
 - Organize tasks by sprint
 
-### Task Management
-- Create tasks with title, description, priority, and status
+---
+
+## Task Management
+- Create and manage tasks
 - Assign tasks to team members
-- Track estimated vs spent hours
-- Update task status through kanban board
-- Priority levels: Low, Medium, High, Urgent
-- Status: To Do, In Progress, In Review, Completed
+- Set task priorities
+- Track estimated and spent hours
+- Kanban board workflow
 
-### Team Collaboration
-- Add team members to projects
-- Assign roles (admin, manager, member)
+### Task Priorities
+- Low
+- Medium
+- High
+- Urgent
+
+### Task Status
+- To Do
+- In Progress
+- In Review
+- Completed
+
+---
+
+## Team Collaboration
+- Add members to projects
+- Assign roles:
+  - Admin
+  - Manager
+  - Member
 - View project activity logs
-- Comment on tasks
+- Collaborate through task updates
 
-### Time Tracking
-- Log time entries for tasks
-- Track estimated vs actual hours
-- View time analytics
+---
 
-## Database Schema
+# Tech Stack
 
-### Tables
-1. **users** - User profiles linked to Supabase auth
-2. **projects** - Project management
-3. **project_members** - Team membership and roles
-4. **sprints** - Sprint organization
-5. **tasks** - Task management
-6. **comments** - Task discussion
-7. **activity_logs** - Project audit trail
-8. **time_entries** - Time tracking
+| Technology | Usage |
+|---|---|
+| Next.js 16 | Frontend Framework |
+| React | UI Development |
+| TypeScript | Type Safety |
+| Tailwind CSS | Styling |
+| shadcn/ui | UI Components |
+| MongoDB | Database |
+| JWT Auth | Authentication |
+| React Hook Form | Form Management |
+| Zod | Validation |
 
-All tables have Row Level Security (RLS) policies for data protection.
+---
 
-## Security
-- Row Level Security (RLS) on all tables
-- Secure authentication with Supabase Auth
-- User data isolation by project
-- Activity logging for compliance
+# Prerequisites
 
-## Tech Stack
-- **Frontend**: Next.js 16, React, TypeScript
-- **Styling**: Tailwind CSS, shadcn/ui
-- **Database**: Supabase PostgreSQL
-- **Authentication**: Supabase Auth
-- **Forms**: React Hook Form, Zod validation
+Before running the project, make sure you have installed:
 
-## Troubleshooting
+- Node.js
+- pnpm
+- MongoDB
 
-### "Supabase URL and/or Anonymous Key are not configured"
-- Check that environment variables are set in Settings → Vars
-- Make sure to use `NEXT_PUBLIC_` prefix for client-side variables
-- Restart the dev server after adding env vars
+---
 
-### Email verification not working
-- Check that the redirect URL is correct: `http://localhost:3000/auth/callback`
-- Verify email configuration in Supabase project settings
+# Environment Configuration
 
-### Can't access protected pages
-- Ensure you're logged in by visiting `/auth/login`
-- Session is managed via middleware - check browser cookies
+## Step 1: Configure Backend Environment Variables
 
-## Next Steps
-1. Sign up with your email
-2. Confirm your email (check inbox)
-3. Create your first project
-4. Add team members
-5. Create sprints and tasks
-6. Start using the kanban board
+Go to the backend project and update the `.env` file using `env.example`.
+
+```env
+DATABASE_URL=
+NODE_ENV=
+PORT=
+JWT_ACCESS_EXPIRES_IN=
+JWT_ACCESS_SECRET=
+JWT_REFRESH_EXPIRES_IN=
+JWT_REFRESH_SECRET=
