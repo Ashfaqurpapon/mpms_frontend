@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { useState } from 'react';;
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,7 +16,6 @@ export function SprintForm({ projectId }: SprintFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -40,21 +38,8 @@ export function SprintForm({ projectId }: SprintFormProps) {
     setLoading(true);
 
     try {
-      // const { data, error: insertError } = await supabase
-      //   .from('sprints')
-      //   .insert([
-      //     {
-      //       project_id: projectId,
-      //       name: formData.name,
-      //       description: formData.description,
-      //       start_date: formData.start_date || null,
-      //       end_date: formData.end_date || null,
-      //       status: 'planning',
-      //     },
-      //   ])
-      //   .select();
-
-      // if (insertError) throw insertError;
+     
+     
 
       const sprint = {
         project_id: projectId,

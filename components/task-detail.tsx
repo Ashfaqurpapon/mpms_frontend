@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { createClient } from '@/lib/supabase/client';
 import type { Task, Comment } from '@/lib/types';
 import { api } from '@/lib/api-lib';
 
@@ -16,7 +15,7 @@ interface TaskDetailProps {
 }
 
 export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
-  const supabase = createClient();
+
   const [task, setTask] = useState<Task | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,9 +27,7 @@ export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
       try {
         setLoading(true);
         const tasks = await api.getAllTasks();
-        //   console.log("paici re",taskId);
-        // console.log("task paici", tasks);
-        // This needs sprint context
+        
         const foundTask = (tasks.data as Task[]).find(
           (t) => t.id === taskId
         );
@@ -53,27 +50,7 @@ export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
   }, [taskId]);
 
   const handleAddComment = async () => {
-    if (!commentText.trim() || !task) return;
-
-    try {
-      setSubmittingComment(true);
-      const { data: { user } } = await supabase.auth.getUser();
-
-      if (!user) return;
-
-      const newComment = await createComment({
-        task_id: taskId,
-        user_id: user.id,
-        content: commentText,
-      });
-
-      setComments([...comments, newComment]);
-      setCommentText('');
-    } catch (error) {
-      console.error('Failed to add comment:', error);
-    } finally {
-      setSubmittingComment(false);
-    }
+   
   };
 
   if (loading) {
@@ -112,7 +89,7 @@ export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
                 Assigned To
               </p>
               <p>
-                {task.assigned_user?.full_name ||
+                {task.assigned_to?.email ||
                   task.assigned_user?.email ||
                   'Unassigned'}
               </p>
@@ -154,7 +131,7 @@ export function TaskDetail({ projectId, taskId }: TaskDetailProps) {
               >
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-medium text-sm">
-                    {comment.user?.full_name || comment.user?.email}
+                    {comment.user?.email || comment.user?.email}
                   </p>
                   <span className="text-xs text-muted-foreground">
                     {new Date(comment.created_at).toLocaleDateString()}

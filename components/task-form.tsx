@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { createTask, getProjectMembers } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -27,7 +25,6 @@ interface TaskFormProps {
 
 export function TaskForm({ projectId, sprintId }: TaskFormProps) {
   const router = useRouter();
-  const supabase = createClient();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [members, setMembers] = useState<ProjectMember[]>([]);
@@ -41,14 +38,7 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
   const { user } = useAuth();
 
   useEffect(() => {
-    // const loadMembers = async () => {
-    //   try {
-    //     const data = await getProjectMembers(projectId);
-    //     setMembers(data);
-    //   } catch (err) {
-    //     console.error('Failed to load members:', err);
-    //   }
-    // };
+   
     const loadMembers = async () => {
       try {
         setLoading(true);

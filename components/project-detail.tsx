@@ -29,12 +29,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
     const loadData = async () => {
       try {
         setLoading(true);
-        // const [projectData, sprintsData] = await Promise.all([
-
-
-        //   getProject(projectId),
-        //   getSprints(projectId),
-        // ]);
+    
 
         const projectData = await api.getSingleProduct(projectId)
         const sprintsData = await api.getAllSprints({

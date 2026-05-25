@@ -46,27 +46,27 @@ export default function ProfilePage() {
   }, [authUser]);
 
   const handleSave = async () => {
-    if (!user) return;
+    // if (!user) return;
 
-    try {
-      setLoading(true);
+    // try {
+    //   setLoading(true);
 
-      await api.updateUser({
-        id: user._id,
-        full_name: formData.full_name,
-      });
+    //   await api.updateUser({
+    //     id: user._id,
+    //     full_name: formData.full_name,
+    //   });
 
-      setUser({
-        ...user,
-        full_name: formData.full_name,
-      });
+    //   setUser({
+    //     ...user,
+    //     full_name: formData.full_name,
+    //   });
 
-      setEditing(false);
-    } catch (error) {
-      console.error('Failed to update profile:', error);
-    } finally {
-      setLoading(false);
-    }
+    //   setEditing(false);
+    // } catch (error) {
+    //   console.error('Failed to update profile:', error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   if (loading) {
