@@ -69,7 +69,7 @@ async function requestForRefreshAccessToken(): Promise<string | undefined> {
     const json = await res.json();
     // ✅ Expected backend structure
     if (json?.success && json?.data?.accessToken) {
-      console.log("Limon Access token refreshed successfully!");
+      // console.log("Limon Access token refreshed successfully!");
       return json.data.accessToken as string;
     } else {
       console.warn("Limon Unexpected refresh response:", json);

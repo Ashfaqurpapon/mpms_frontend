@@ -37,7 +37,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
         })
 
 
-        console.log("projectData", sprintsData);
+        // console.log("projectData", sprintsData);
 
         setProject(projectData);
         setSprints(sprintsData.data);

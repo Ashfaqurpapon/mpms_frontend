@@ -43,7 +43,7 @@ export default function Page() {
       
       const success = await login(email, password);
 
-      console.log("papon", success);
+     
 
 
       if (success) {

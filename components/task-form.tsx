@@ -44,7 +44,7 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
         setLoading(true);
         const data = await api.getAllMembers({ projectId });
 
-        console.log("member paite cai", data);
+        // console.log("member paite cai", data);
 
         setMembers(data.data);
       } catch (err) {
@@ -98,7 +98,7 @@ export function TaskForm({ projectId, sprintId }: TaskFormProps) {
 
       
       const result=await api.createTask({task})
-      console.log("result paici",result);
+      // console.log("result paici",result);
       
       
 

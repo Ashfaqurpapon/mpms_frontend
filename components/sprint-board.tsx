@@ -35,7 +35,7 @@ export function SprintBoard({ sprint, projectId }: SprintBoardProps) {
         const data = await api.getAllTasks({
           sprint_id: sprint._id,
         });
-        console.log("task paici",data);
+        // console.log("task paici",data);
         setTasks(data.data);
       } catch (error) {
         console.error('Failed to load tasks:', error);

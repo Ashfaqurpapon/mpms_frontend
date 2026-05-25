@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     
     
     if (!foundUser) {
-      console.log("User not found");
+      // console.log("User not found");
       return false;
     }
     const userData: User = {
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       role: foundUser.user.role
     };
 
-    console.log("check",userData);
+    // console.log("check",userData);
     
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));

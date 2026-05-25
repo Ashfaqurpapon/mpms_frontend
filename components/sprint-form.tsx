@@ -49,7 +49,7 @@ export function SprintForm({ projectId }: SprintFormProps) {
         status: 'planning'
       };
       const result: any = await api.createSprint(sprint);
-      console.log("check sprint result",result);
+      // console.log("check sprint result",result);
       
 
       if (result) {

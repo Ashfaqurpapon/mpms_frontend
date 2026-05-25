@@ -36,7 +36,7 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
       setLoading(true);
       const data = await api.getAllMembers({projectId});
 
-      console.log("member paite cai",data);
+      // console.log("member paite cai",data);
       
       setMembers(data.data);
     } catch (err) {
@@ -59,7 +59,7 @@ export function ProjectMembers({ projectId }: ProjectMembersProps) {
 
       // Get user by email
 
-      console.log("email",email);
+      // console.log("email",email);
       
       const user = await api.getUserByEmail({ email });
 

@@ -117,7 +117,7 @@ export const api = {
     async getSingleProduct(projectId: string) {
         const accessToken = localStorage.getItem("authToken");
 
-        console.log("royte", accessToken);
+        // console.log("royte", accessToken);
         const res = await fetch(
             `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_SINGLE}/${projectId}`,
             {
@@ -204,7 +204,7 @@ export const api = {
     async getSingleSprint(projectId: string) {
         const accessToken = localStorage.getItem("authToken");
 
-        console.log("royte", accessToken);
+        // console.log("royte", accessToken);
         const res = await fetch(
             `${ApiRouteConstant.BASE_URL}${ApiRouteConstant.ROUTES.PROJECT_GET_SINGLE}/${projectId}`,
             {

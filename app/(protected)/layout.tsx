@@ -15,7 +15,7 @@ export default function ProtectedLayout({
   useEffect(() => {
     const user = localStorage.getItem("user");
 
-    console.log("LOCAL STORAGE USER =>", user);
+    
 
     if (!user) {
       router.push("/auth/login");
