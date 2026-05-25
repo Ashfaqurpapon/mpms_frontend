@@ -55,7 +55,7 @@ Get your .env.example
 pnpm dev
 ```
 
-Visit http://localhost:3000
+Visit https://mpms-frontend-three.vercel.app/
 
 ## Project Structure
 
