@@ -1,6 +1,6 @@
 # Multi-Project Management System (MPMS)
 
-A full-stack project management application built with Next.js, TypeScript, Supabase, and shadcn/ui.
+A full-stack project management application built with Next.js, TypeScript,ExpressJs MongoDB, and shadcn/ui.
 
 ## Features
 
@@ -9,14 +9,11 @@ A full-stack project management application built with Next.js, TypeScript, Supa
 - **Team Collaboration** - Add team members and manage roles (Admin, Manager, Member)
 - **Sprint Planning** - Organize work into sprints with start/end dates
 - **Task Management** - Create tasks with priority levels (Low, Medium, High, Urgent)
-- **Kanban Board** - Drag-and-drop task management across columns (To Do, In Progress, In Review, Completed)
-- **Time Tracking** - Log hours spent on tasks with detailed time entries
-- **Comments** - Collaborate on tasks with inline comments
 - **Activity Logs** - Track all project activities and changes
 
 ### Technical Features
 - Row Level Security (RLS) for data protection
-- Real-time data synchronization with Supabase
+- Real-time data synchronization 
 - Responsive design for desktop and mobile
 - TypeScript for type safety
 - Server-side session management
@@ -24,22 +21,20 @@ A full-stack project management application built with Next.js, TypeScript, Supa
 
 ## Database Schema
 
-The application uses 8 interconnected tables:
+The application uses 5 interconnected tables:
 
 1. **users** - Extended Supabase auth with profiles
 2. **projects** - Project records with owner tracking
 3. **project_members** - Team member assignments with roles
 4. **sprints** - Sprint planning with date ranges
 5. **tasks** - Task details with status and priority
-6. **comments** - Discussion threads on tasks
-7. **activity_logs** - Audit trail of all actions
-8. **time_entries** - Time tracking records
+
 
 ## Setup Instructions
 
 ### 1. Prerequisites
 - Node.js 18+ with pnpm
-- Supabase account (https://app.supabase.com)
+- Backend Connect with this Url(BASE_URL: "https://mpms-backend-emhp.onrender.com")
 
 ### 2. Clone and Install
 ```bash
@@ -50,15 +45,9 @@ pnpm install
 
 ### 3. Configure Environment Variables
 
-Get your Supabase credentials from https://app.supabase.com:
-- Go to Settings → API
-- Copy Project URL and Anonymous Key
+Get your .env.example
+- Set your MongoDB cluster
 
-Add to your `.env.local`:
-```
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anonymous-key
-NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000/auth/callback
 ```
 
 ### 4. Run the Development Server
@@ -96,11 +85,9 @@ components/
   task-detail.tsx       # Task with comments
 
 lib/
-  supabase/
-    client.ts           # Client-side Supabase
-    server.ts           # Server-side Supabase
-    proxy.ts            # Session proxy
-  types.ts              # TypeScript definitions
+  api.api-lib           # Fetch all data from Backend
+  api-response-classs   # ALl response types routes
+  api-route-constant    # All backend routes
   api.ts                # API utilities
 ```
 
@@ -125,11 +112,6 @@ lib/
 3. Create tasks within the sprint
 4. Tasks appear on the kanban board
 
-### Tracking Time
-1. Open a task
-2. Click "Log Time" or "Time Entries"
-3. Enter hours and date
-4. Time is automatically summed for task estimates
 
 ## Authentication
 
@@ -164,7 +146,6 @@ Make sure to add environment variables in Vercel project settings.
 
 ## Performance Considerations
 
-- Supabase caching with SWR for client state
 - RLS policies prevent unauthorized data access
 - Indexed foreign keys for fast queries
 - Pagination for large result sets
@@ -178,9 +159,6 @@ Make sure to add environment variables in Vercel project settings.
 - SQL injection prevention via parameterized queries
 
 ## Troubleshooting
-
-### "Supabase URL not configured"
-- Add `NEXT_PUBLIC_SUPABASE_URL` to environment variables
 
 ### "Permission denied" errors
 - Check RLS policies in Supabase dashboard
